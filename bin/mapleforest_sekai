@@ -12,6 +12,7 @@ end
 bot.run :async
 
 channel = bot.channel(ENV['CHANNEL'])
+gm_channel = bot.channel(ENV['GM_CHANNEL'])
 
 cache = LruRedux::TTL::Cache.new(1000, 60 * 60)
 
@@ -25,6 +26,6 @@ while (log = gets("\n\n").chomp)
     end
     cache[character] = true
   when 'Log: game/AutoBanWarning.txt'
-    bot.send_message(channel, body)
+    bot.send_message(gm_channel, body)
   end
 end
