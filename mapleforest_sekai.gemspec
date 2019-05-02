@@ -8,6 +8,9 @@ Gem::Specification.new do |s|
   s.license = 'AGPL-3.0'
 
   s.files = Dir['LICENSE']
+  s.executables << 'mapleforest_sekai'
+
+  s.add_dependency 'discordrb', '~> 3.3'
 
   s.add_development_dependency 'minitest', '~> 5.11'
   s.add_development_dependency 'rake', '~> 12.3'
