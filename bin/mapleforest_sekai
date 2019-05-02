@@ -1,6 +1,7 @@
 #!/usr/bin/env ruby
 
 require 'discordrb'
+require 'lru_redux'
 
 bot = Discordrb::Bot.new token: ENV['TOKEN']
 
@@ -12,12 +13,17 @@ bot.run :async
 
 channel = bot.channel(ENV['CHANNEL'])
 
+cache = LruRedux::TTL::Cache.new(1000, 60 * 60)
+
 while (log = gets("\n\n").chomp)
   file, body = log.split("\n", 2)
   case file
   when 'Log: players/LoadCharFromDB.txt'
     character = body.match(/Loaded (\w+)/)[1]
-    bot.send_message(channel, "`#{character}` logged in.")
+    if cache[character].nil?
+      bot.send_message(channel, "`#{character}` logged in.")
+    end
+    cache[character] = true
   when 'Log: game/AutoBanWarning.txt'
     bot.send_message(channel, body)
   end

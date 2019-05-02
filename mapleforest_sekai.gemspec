@@ -11,6 +11,7 @@ Gem::Specification.new do |s|
   s.executables << 'mapleforest_sekai'
 
   s.add_dependency 'discordrb', '~> 3.3'
+  s.add_dependency 'lru_redux', '~> 1.1'
 
   s.add_development_dependency 'minitest', '~> 5.11'
   s.add_development_dependency 'rake', '~> 12.3'
