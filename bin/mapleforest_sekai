@@ -13,6 +13,7 @@ bot.run :async
 
 channel = bot.channel(ENV['CHANNEL'])
 gm_channel = bot.channel(ENV['GM_CHANNEL'])
+gm_characters = ENV['GM_CHARACTERS'].split(',')
 
 cache = LruRedux::TTL::Cache.new(1000, 60 * 60)
 
@@ -21,6 +22,8 @@ while (log = gets("\n\n").chomp)
   case file
   when 'Log: players/LoadCharFromDB.txt'
     character = body.match(/Loaded (\w+)/)[1]
+    next if gm_characters.include?(character)
+
     if cache[character].nil?
       bot.send_message(channel, "`#{character}` logged in.")
     end
